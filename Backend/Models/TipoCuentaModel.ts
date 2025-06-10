@@ -1,5 +1,5 @@
 import { promises } from "node:dns";
-import { z } from "../Dependencies/dependencias.ts";
+import { z } from "../Dependencies/Dependencies.ts";
 import { conexion } from "./Conexion.ts";
 import { error } from "node:console";
 
