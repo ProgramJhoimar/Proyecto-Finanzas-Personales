@@ -3,27 +3,27 @@ import { z } from "../Dependencies/Dependencies.ts";
 import { conexion } from "./Conexion.ts";
 import { error } from "node:console";
 
-interface ClienteData {
+interface TipoData {
   idUsuario: number | null;
   nombreTipoCuenta: string;
   apellido: string;
 }
 
-export class Clientes {
-  public _objcliente: ClienteData | null;
-  public _idCLiente: number | null;
+export class TipoCuenta {
+  public _objTipo: TipoData | null;
+  public _idTipo: number | null;
 
   constructor(
-    objclient: ClienteData | null = null,
-    idCliente: number | null = null,
+    objTipo: TipoData | null = null,
+    idTipo: number | null = null,
   ) {
-    this._objcliente = objclient;
-    this._idCLiente = idCliente;
+    this._objTipo = objTipo;
+    this._idTipo = idTipo;
   }
 
-  public async SeleccionarCliente(): Promise<ClienteData[]> {
+  public async SeleccionarCliente(): Promise<TipoData[]> {
     const { rows: client } = await conexion.execute("select * from cliente");
-    return client as ClienteData[];
+    return client as TipoData[];
   }
 
   public async insertarCliente(): Promise<
@@ -31,12 +31,12 @@ export class Clientes {
   > {
     try {
       //validar que _objUsuario no sea null y que los campos requeridos esten definidos
-      if (!this._objcliente) {
+      if (!this._objTipo) {
         throw new Error("No se ha proporcionado un objeto de usuario valido");
       }
 
-      const { nombre, apellido, documento, telefono, direccion } = this._objcliente;
-      if (!nombre || !apellido || !documento || !telefono || !direccion) {
+      const { nombreTipoCuenta, apellido } = this._objTipo;
+      if (!nombreTipoCuenta || !apellido ) {
         throw new Error("Faltan campos requeridos para insertar el usuario");
       }
 
@@ -45,11 +45,8 @@ export class Clientes {
       const result = await conexion.execute(
         `insert into cliente(nombre,apellido,documento,telefono,direccion)values(?,?,?,?,?)`,
         [
-          nombre,
+          nombreTipoCuenta,
           apellido,
-          documento,
-          telefono,
-          direccion,
         ],
       );
 
