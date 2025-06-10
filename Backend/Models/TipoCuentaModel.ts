@@ -1,15 +1,12 @@
 import { promises } from "node:dns";
-import { z } from "..//Dependencies/";
+import { z } from "../Dependencies/dependencias.ts";
 import { conexion } from "./Conexion.ts";
 import { error } from "node:console";
 
 interface ClienteData {
   idUsuario: number | null;
-  nombre: string;
+  nombreTipoCuenta: string;
   apellido: string;
-  documento: string;
-  telefono: string;
-  direccion: string;
 }
 
 export class Clientes {
