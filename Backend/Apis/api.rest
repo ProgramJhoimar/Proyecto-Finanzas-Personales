@@ -19,3 +19,28 @@ Content-Type: application/json
 }
 ###
 DELETE http://localhost:8000/categorias/3
+
+
+//Tabla Cuenta
+###
+GET http://localhost:8000/cuentas
+###
+POST http://localhost:8000/cuentas
+Content-Type: application/json
+
+{
+    "idUsuario": "1",
+    "idTipoCuenta": "1",
+    "nombreCuenta": "Ahorros comida"
+}
+###
+PUT http://localhost:8000/cuentas/1
+Content-Type: application/json
+
+{
+   "idUsuario": "1",
+    "idTipoCuenta": "1",
+    "nombreCuenta": "Ahorros chimbas"
+}
+###
+DELETE http://localhost:8000/cuentas/4
