@@ -61,7 +61,7 @@ PUT http://localhost:8000/TipoFinanza/3
 Content-Type: application/json
 
 {
-    "nombreTipoFinanza": "gordoooooo"
+    "nombreTipoFinanza": "gordoo"
 }
 ###
 DELETE http://localhost:8000/TipoFinanza/2
