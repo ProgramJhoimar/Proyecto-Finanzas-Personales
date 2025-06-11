@@ -1,0 +1,23 @@
+GET http://localhost:8000/TipoCuentaget  
+### 
+
+POST http://localhost:8000/TipoCuentapost  
+Content-Type: application/json
+
+{
+    "nombreTipoCuenta": "efectivo",
+    "numeroCuenta": 
+}
+###
+
+PUT http://localhost:8000/Clientesput/1
+Content-Type: application/json
+
+{
+    "idTipoCuenta": 1,
+    "nombreTipoCuenta": "JAVIER",
+     "numeroCuenta": 
+}
+###
+
+DELETE http://localhost:8000/Clientedelete/2
