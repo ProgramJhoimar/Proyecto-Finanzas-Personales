@@ -44,3 +44,24 @@ Content-Type: application/json
 }
 ###
 DELETE http://localhost:8000/cuentas/4
+
+
+//tipoFinanaza
+###
+GET http://localhost:8000/TipoFinanza
+###
+POST http://localhost:8000/TipoFinanza
+Content-Type: application/json
+
+{
+      "nombreTipoFinanza": "nnnnnasas"
+}
+###
+PUT http://localhost:8000/TipoFinanza/3
+Content-Type: application/json
+
+{
+    "nombreTipoFinanza": "gordoooooo"
+}
+###
+DELETE http://localhost:8000/TipoFinanza/2
