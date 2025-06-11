@@ -1,6 +1,5 @@
 import { conexion } from "./Conexion.ts";
-import { z } from "../Dependencies/Dependencias.ts";
-import { Decipher } from "node:crypto";
+import { z } from "../Dependencies/Dependencies.ts";
 
 
 interface CategoriaData{
@@ -20,7 +19,7 @@ export class Categotria{
     }
     
     public async SeleccionarCategoria(): Promise<CategoriaData[]>{
-        const {rows: catego} = await conexion.execute('select * from cagoria');
+        const {rows: catego} = await conexion.execute('select * from categoria');
         return catego as CategoriaData[];
     }
 
@@ -95,7 +94,7 @@ export class Categotria{
         }
     }
     
-    public async EliminarUsuario(): Promise<{ success: boolean; message: string }> {
+    public async EliminarCategoria(): Promise<{ success: boolean; message: string }> {
         try {
             if (!this._idCategoria) {
                 throw new Error("ID de  inválido.");
@@ -112,9 +111,8 @@ export class Categotria{
                 return { success: false, message: "No se encontró  o no se eliminó nada." };
             }
     
-        // deno-lint-ignore no-unused-vars
         } catch (error) {
-            return { success: false, message: "Error al eliminar." };
+            return { success: false, message: "Error al eliminar." + error};
         }
     }
     

@@ -1,0 +1,21 @@
+GET http://localhost:8000/categorias
+###
+POST http://localhost:8000/categorias
+Content-Type: application/json
+
+{
+    "nombreCategoria": "Dairo",
+    "valorLimite": "2000",
+    "idUsuario": "1"
+}
+###
+PUT http://localhost:8000/categorias/3
+Content-Type: application/json
+
+{
+    "nombreCategoria": "Dairobbbb",
+    "valorLimite": "5000",
+    "idUsuario": "1"
+}
+###
+DELETE http://localhost:8000/categorias/3
