@@ -1,11 +1,13 @@
 import { Application , oakCors } from "./Dependencies/Dependencies.ts";
 import { routerCategoria } from "./Routes/CategoriaRouter.ts";
+import { RouterTipo } from "./Routes/TipoCuentaRouter.ts";
+
 
 const app = new Application();
 
 app.use(oakCors());
 
-const routers = [routerCategoria,];
+const routers = [routerCategoria,RouterTipo];
 
 routers.forEach((router) =>{
     app.use(router.routes());

@@ -3,10 +3,11 @@ import { z } from "../Dependencies/Dependencies.ts";
 import { conexion } from "./Conexion.ts";
 import { error } from "node:console";
 
+
 interface TipoData {
   idTipoCuenta: number | null;
   nombreTipoCuenta: string;
-  numeroCuenta: number | null;
+  numeroCuenta: string ;
 }
 
 export class TipoCuenta {
@@ -27,7 +28,7 @@ export class TipoCuenta {
   }
 
   public async insertarTipo(): Promise<
-    { success: boolean; message: string; cliente?: Record<string, unknown> }
+    { success: boolean; message: string; TipoCuenta?: Record<string, unknown> }
   > {
     try {
       //validar que _objUsuario no sea null y que los campos requeridos esten definidos
@@ -63,7 +64,7 @@ export class TipoCuenta {
         return {
           success: true,
           message: "Tipo de Cuenta registrado correctamente.",
-          cliente: tipo,
+          TipoCuenta: tipo,
         };
       } else {
         throw new Error("no fue posible registrar el Tipo de Cuenta.");

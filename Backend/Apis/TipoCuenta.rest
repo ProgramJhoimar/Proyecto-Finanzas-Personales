@@ -5,19 +5,19 @@ POST http://localhost:8000/TipoCuentapost
 Content-Type: application/json
 
 {
-    "nombreTipoCuenta": "efectivo",
-    "numeroCuenta": 
+    "nombreTipoCuenta": "cuenta",
+    "numeroCuenta": "0"
 }
 ###
 
-PUT http://localhost:8000/Clientesput/1
+PUT http://localhost:8000/TipoCuentaput/1
 Content-Type: application/json
 
 {
     "idTipoCuenta": 1,
     "nombreTipoCuenta": "JAVIER",
-     "numeroCuenta": 
+     "numeroCuenta": "2332"
 }
 ###
 
-DELETE http://localhost:8000/Clientedelete/2
+DELETE http://localhost:8000/TipoCuentadelete/2
