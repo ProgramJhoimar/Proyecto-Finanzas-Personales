@@ -4,9 +4,9 @@ import { conexion } from "./Conexion.ts";
 import { error } from "node:console";
 
 interface TipoData {
-  idUsuario: number | null;
+  idTipoCuenta: number | null;
   nombreTipoCuenta: string;
-  apellido: string;
+  numeroCuenta: number | null;
 }
 
 export class TipoCuenta {
@@ -21,12 +21,12 @@ export class TipoCuenta {
     this._idTipo = idTipo;
   }
 
-  public async SeleccionarCliente(): Promise<TipoData[]> {
-    const { rows: client } = await conexion.execute("select * from cliente");
-    return client as TipoData[];
+  public async SeleccionarTipo(): Promise<TipoData[]> {
+    const { rows: tipocuen } = await conexion.execute("select * from tipocuenta");
+    return tipocuen as TipoData[];
   }
 
-  public async insertarCliente(): Promise<
+  public async insertarTipo(): Promise<
     { success: boolean; message: string; cliente?: Record<string, unknown> }
   > {
     try {
@@ -35,18 +35,18 @@ export class TipoCuenta {
         throw new Error("No se ha proporcionado un objeto de usuario valido");
       }
 
-      const { nombreTipoCuenta, apellido } = this._objTipo;
-      if (!nombreTipoCuenta || !apellido ) {
-        throw new Error("Faltan campos requeridos para insertar el usuario");
+      const { nombreTipoCuenta, numeroCuenta } = this._objTipo;
+      if (!nombreTipoCuenta || !numeroCuenta ) {
+        throw new Error("Faltan campos requeridos para insertar el Tipo de Cuenta");
       }
 
       await conexion.execute("START TRANSACTION");
 
       const result = await conexion.execute(
-        `insert into cliente(nombre,apellido,documento,telefono,direccion)values(?,?,?,?,?)`,
+        `insert into tipocuenta(nombreTipoCuenta,numeroCuenta)values(?,?)`,
         [
           nombreTipoCuenta,
-          apellido,
+          numeroCuenta,
         ],
       );
 
@@ -54,19 +54,19 @@ export class TipoCuenta {
         result && typeof result.affectedRows === "number" &&
         result.affectedRows > 0
       ) {
-        const [cliente] = await conexion.query(
-          `select * from cliente WHERE idUsuario = LAST_INSERT_ID()`,
+        const [tipo] = await conexion.query(
+          `select * from tipocuenta WHERE idTipoCuenta  = LAST_INSERT_ID()`,
         );
 
         await conexion.execute("COMMIT");
 
         return {
           success: true,
-          message: "cliente registrado correctamente.",
-          cliente: cliente,
+          message: "Tipo de Cuenta registrado correctamente.",
+          cliente: tipo,
         };
       } else {
-        throw new Error("no fue posible registrar el usuario.");
+        throw new Error("no fue posible registrar el Tipo de Cuenta.");
       }
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -77,57 +77,57 @@ export class TipoCuenta {
     }
   }
 
- public async actualizarClientes(): Promise<{ success: boolean; message: string }> {
+ public async actualizarTipo(): Promise<{ success: boolean; message: string }> {
     try {
-      if (!this._objcliente || !this._objcliente.idUsuario) {
+      if (!this._objTipo || !this._objTipo.idTipoCuenta) {
         throw new Error("Datos de usuario no válidos");
       }
   
-      const { idUsuario, nombre, apellido, documento, telefono, direccion } = this._objcliente;
+      const { idTipoCuenta, nombreTipoCuenta, numeroCuenta} = this._objTipo;
   
       await conexion.execute("START TRANSACTION");
   
       const result = await conexion.execute(
-        `UPDATE cliente SET nombre = ?, apellido = ?, documento = ?, telefono = ?, direccion = ? WHERE idUsuario = ?`,
-        [nombre, apellido, documento, telefono, direccion, idUsuario]
+        `UPDATE tipocuenta SET nombreTipoCuenta = ?, numeroCuenta = ? WHERE idTipoCuenta = ?`,
+        [nombreTipoCuenta, numeroCuenta, idTipoCuenta]
       );
   
       if (result && typeof result.affectedRows === "number" && result.affectedRows > 0) {
         await conexion.execute("COMMIT");
-        return { success: true, message: "cliente actualizado correctamente." };
+        return { success: true, message: "Tipo de Cuenta actualizado correctamente." };
       } else {
-        throw new Error("No se encontró el cliente o no se pudo actualizar.");
+        throw new Error("No se encontró el Tipo de Cuenta o no se pudo actualizar.");
       }
   
     } catch (error) {
       await conexion.execute("ROLLBACK");
-      return { success: false, message: "Error al actualizar el usuario." };
+      return { success: false, message: "Error al actualizar el Tipo de Cuenta." };
     }
   }
 
- public async eliminarCliente(): Promise<{ success: boolean; message: string }> {
+ public async eliminarTipo(): Promise<{ success: boolean; message: string }> {
     try {
-      if (!this._idCLiente) {
-        throw new Error("ID de usuario no proporcionado");
+      if (!this._idTipo) {
+        throw new Error("ID del Tipo de Cuenta no proporcionado");
       }
   
       await conexion.execute("START TRANSACTION");
   
       const result = await conexion.execute(
-        "DELETE FROM cliente WHERE idUsuario = ?",
-        [this._idCLiente]
+        "DELETE FROM tipocuenta WHERE idTipoCuenta = ?",
+        [this._idTipo]
       );
   
       if (result && typeof result.affectedRows === "number" && result.affectedRows > 0) {
         await conexion.execute("COMMIT");
-        return { success: true, message: "Usuario eliminado correctamente." };
+        return { success: true, message: "Tipo de Cuenta eliminado correctamente." };
       } else {
-        throw new Error("No se encontró el usuario o no se pudo eliminar.");
+        throw new Error("No se encontró el Tipo e Cuenta o no se pudo eliminar.");
       }
   
     } catch (error) {
       await conexion.execute("ROLLBACK");
-      return { success: false, message: "Error al eliminar el usuario." };
+      return { success: false, message: "Error al eliminar el Tipo de Cuenta." };
     }
   }
 
