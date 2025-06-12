@@ -1,24 +1,17 @@
 import { Application , oakCors } from "./Dependencies/Dependencies.ts";
 import { send } from "https://deno.land/x/oak@v17.1.3/send.ts";
-import { Application, oakCors } from "./Dependencies/Dependencies.ts";
 import { routerCategoria } from "./Routes/CategoriaRouter.ts";
 import { routerCuenta } from "./Routes/CuetaRouter.ts";
-<<<<<<< HEAD
 import { routeTipoFinanza } from "./Routes/TipoFinanzaRouter.ts";
 import { RouterTipo } from "./Routes/TipoCuentaRouter.ts";
-
-
-=======
-import { RouterTipo } from "./Routes/TipoCuentaRouter.ts";
-import { routeTipoFinanza } from "./Routes/TipoFinanzaRouter.ts";
 import { UserRouter } from "./Routes/UserRoute.ts";
->>>>>>> main
+
+
 
 const app = new Application();
 
 app.use(oakCors());
 
-const routers = [routerCategoria,routerCuenta,routeTipoFinanza,RouterTipo];
 const routers = [routerCategoria, routerCuenta, routeTipoFinanza, UserRouter, RouterTipo];
 app.use(async (ctx, next) => {
   if (ctx.request.url.pathname.startsWith("/Uploads")) {
