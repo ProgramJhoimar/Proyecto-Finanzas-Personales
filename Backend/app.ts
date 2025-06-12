@@ -1,23 +1,37 @@
 import { Application , oakCors } from "./Dependencies/Dependencies.ts";
+import { send } from "https://deno.land/x/oak@v17.1.3/send.ts";
+import { Application, oakCors } from "./Dependencies/Dependencies.ts";
 import { routerCategoria } from "./Routes/CategoriaRouter.ts";
 import { routerCuenta } from "./Routes/CuetaRouter.ts";
 import { RouterTipo } from "./Routes/TipoCuentaRouter.ts";
 import { routeTipoFinanza } from "./Routes/TipoFinanzaRouter.ts";
-
-
+import { UserRouter } from "./Routes/UserRoute.ts";
 
 const app = new Application();
 
 app.use(oakCors());
 
+<<<<<<< HEAD
 const routers = [routerCategoria,routerCuenta,routeTipoFinanza,RouterTipo];
+=======
+const routers = [routerCategoria, routerCuenta, routeTipoFinanza, UserRouter];
+app.use(async (ctx, next) => {
+  if (ctx.request.url.pathname.startsWith("/Uploads")) {
+    await send(ctx, ctx.request.url.pathname, {
+      root: `${Deno.cwd()}`,
+    });
+  } else {
+    await next();
+  }
+});
+>>>>>>> Rama-Jhoimar
 
 
-routers.forEach((router) =>{
-    app.use(router.routes());
-    app.use(router.allowedMethods());
+routers.forEach((router) => {
+  app.use(router.routes());
+  app.use(router.allowedMethods());
 });
 
 console.log("Servidor corriendo por el puerto 8000");
 
-app.listen({ port:8000 });
+app.listen({ port: 8000 });
