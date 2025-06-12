@@ -1,4 +1,4 @@
-import { Application , oakCors } from "./Dependencies/Dependencies.ts";
+
 import { send } from "https://deno.land/x/oak@v17.1.3/send.ts";
 import { Application, oakCors } from "./Dependencies/Dependencies.ts";
 import { routerCategoria } from "./Routes/CategoriaRouter.ts";
@@ -11,9 +11,6 @@ const app = new Application();
 
 app.use(oakCors());
 
-<<<<<<< HEAD
-const routers = [routerCategoria,routerCuenta,routeTipoFinanza,RouterTipo];
-=======
 const routers = [routerCategoria, routerCuenta, routeTipoFinanza, UserRouter];
 app.use(async (ctx, next) => {
   if (ctx.request.url.pathname.startsWith("/Uploads")) {
@@ -24,7 +21,6 @@ app.use(async (ctx, next) => {
     await next();
   }
 });
->>>>>>> Rama-Jhoimar
 
 
 routers.forEach((router) => {
