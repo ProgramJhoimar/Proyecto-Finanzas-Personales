@@ -68,3 +68,8 @@ Content-Type: application/json
 }
 ###
 DELETE http://localhost:8000/TipoFinanza/2
+
+
+
+### Obtener transacciones detalladas por ID de usuario
+GET http://localhost:8000/api/transacciones/1

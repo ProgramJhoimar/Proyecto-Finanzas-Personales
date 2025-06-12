@@ -5,6 +5,8 @@ import { routerCuenta } from "./Routes/CuetaRouter.ts";
 import { routeTipoFinanza } from "./Routes/TipoFinanzaRouter.ts";
 import { RouterTipo } from "./Routes/TipoCuentaRouter.ts";
 import { UserRouter } from "./Routes/UserRoute.ts";
+import { routerDetallesT } from "./Routes/Private/TransaccionesDetallesRouter.ts";
+
 
 
 
@@ -12,7 +14,7 @@ const app = new Application();
 
 app.use(oakCors());
 
-const routers = [routerCategoria, routerCuenta, routeTipoFinanza, UserRouter, RouterTipo];
+const routers = [routerCategoria, routerCuenta, routeTipoFinanza, UserRouter, RouterTipo,routerDetallesT];
 app.use(async (ctx, next) => {
   if (ctx.request.url.pathname.startsWith("/Uploads")) {
     await send(ctx, ctx.request.url.pathname, {

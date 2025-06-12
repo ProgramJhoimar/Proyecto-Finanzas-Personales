@@ -9,6 +9,7 @@ interface CategoriaData{
     idUsuario: number;
 }
 
+
 export class Categotria{
     public _objCategoria: CategoriaData | null;
     public _idCategoria: number | null;
