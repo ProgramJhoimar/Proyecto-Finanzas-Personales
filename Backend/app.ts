@@ -3,8 +3,6 @@ import { routerCategoria } from "./Routes/CategoriaRouter.ts";
 import { routerCuenta } from "./Routes/CuetaRouter.ts";
 import { RouterTipo } from "./Routes/TipoCuentaRouter.ts";
 import { routeTipoFinanza } from "./Routes/TipoFinanzaRouter.ts";
-import { routeTipoFinanza } from "./Routes/TipoFinanzaRouter.ts";
-import { RouterTipo } from "./Routes/TipoCuentaRouter.ts";
 
 
 
