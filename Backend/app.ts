@@ -13,7 +13,7 @@ const app = new Application();
 
 app.use(oakCors());
 
-const routers = [routerCategoria,routerCuenta,routeTipoFinanza];
+const routers = [routerCategoria,routerCuenta,routeTipoFinanza,RouterTipo];
 
 
 routers.forEach((router) =>{
