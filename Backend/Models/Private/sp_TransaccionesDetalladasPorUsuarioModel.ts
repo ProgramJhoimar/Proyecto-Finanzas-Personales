@@ -3,7 +3,7 @@
 import { conexion } from "../Conexion.ts";
 
 export const getTransaccionesDetalladasPorUsuario = async (idUsuario: number) => {
-  const result = await conexion.execute(`CALL sp_TransaccionesDetalladasPorUsuario(?)`, [idUsuario]);
+  const result = await conexion.execute(`CALL sp_DetellesTransaccion (?)`, [idUsuario]);
 
   // Verifica si result tiene la propiedad rows (devuelta por la librería MySQL para Deno)
   if (result && "rows" in result) {
