@@ -29,18 +29,21 @@ POST http://localhost:8000/cuentas
 Content-Type: application/json
 
 {
-    "idUsuario": "1",
-    "idTipoCuenta": "1",
-    "nombreCuenta": "Ahorros comida"
+    "idUsuario": "2",
+    "idTipoCuenta": "2",
+    "nombreCuenta": "bancolombia",
+    "saldo":"200000"
 }
 ###
 PUT http://localhost:8000/cuentas/1
 Content-Type: application/json
 
 {
-   "idUsuario": "1",
-    "idTipoCuenta": "1",
-    "nombreCuenta": "Ahorros chimbas"
+   "idUsuario": "2",
+    "idTipoCuenta": "2",
+    "nombreCuenta": "bancolombia",
+    "saldo":"500000"
+
 }
 ###
 DELETE http://localhost:8000/cuentas/4
@@ -65,3 +68,8 @@ Content-Type: application/json
 }
 ###
 DELETE http://localhost:8000/TipoFinanza/2
+
+
+
+### Obtener transacciones detalladas por ID de usuario
+GET http://localhost:8000/api/transacciones/1

@@ -5,6 +5,7 @@ import { z } from "../Dependencies/Dependencies.ts";
 interface CuentaData{
     idCuenta: number | null;
     nombreCuenta: string ;
+    saldo:number;
     idTipoCuenta: number ;
     idUsuario: number;
 }
@@ -32,17 +33,18 @@ export class Cuenta{
                 throw new Error("No se ha proporcionado un objeto Cuenta válido")
             }
 
-            const {idUsuario,idTipoCuenta,nombreCuenta} = this._objCuenta;
-            if (!idUsuario || !idTipoCuenta ||!nombreCuenta ) {
+            const {idUsuario,idTipoCuenta,nombreCuenta,saldo} = this._objCuenta;
+            if (!idUsuario || !idTipoCuenta ||!nombreCuenta || !saldo ) {
                 throw new Error("Faltan campos requeridos para insertar la cuenta.");
             }
 
             await conexion.execute("START TRANSACTION");
         
-            const result = await conexion.execute(`insert into cuentas(idUsuario,idTipoCuenta,nombreCuenta)values(?,?,?)`,[
+            const result = await conexion.execute(`insert into cuentas(idUsuario,idTipoCuenta,nombreCuenta,saldo)values(?,?,?,?)`,[
                 idUsuario,
                 idTipoCuenta,
                 nombreCuenta,
+                saldo,
             ])
 
             if (result && typeof result.affectedRows == "number" && result.affectedRows > 0) {
@@ -71,15 +73,15 @@ export class Cuenta{
                 throw new Error("Datos de la Categoria inválidos.");
             }
     
-            const { idCuenta, idUsuario, idTipoCuenta, nombreCuenta } = this._objCuenta;
+            const { idCuenta, idUsuario, idTipoCuenta, nombreCuenta,saldo } = this._objCuenta;
     
-            if (!idUsuario || !idTipoCuenta || !nombreCuenta) {
+            if (!idUsuario || !idTipoCuenta || !nombreCuenta || !saldo) {
                 throw new Error("Todos los campos son obligatorios para actualizar.");
             }
     
             const result = await conexion.execute(
-                `UPDATE cuentas SET idUsuario = ?, idTipoCuenta = ?, nombreCuenta = ? WHERE idCuenta = ?`,
-                [idUsuario, idTipoCuenta,nombreCuenta, idCuenta]
+                `UPDATE cuentas SET idUsuario = ?, idTipoCuenta = ?, nombreCuenta = ?, saldo = ? WHERE idCuenta = ?`,
+                [idUsuario, idTipoCuenta,nombreCuenta, saldo, idCuenta]
             );
     
             if (result && typeof result.affectedRows === "number" && result.affectedRows > 0) {

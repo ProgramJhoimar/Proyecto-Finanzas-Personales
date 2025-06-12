@@ -5,8 +5,8 @@ POST http://localhost:8000/TipoCuentapost
 Content-Type: application/json
 
 {
-    "nombreTipoCuenta": "cuenta",
-    "numeroCuenta": "0"
+    "nombreTipoCuenta": "Tarjeta Bancolombia",
+    "numeroCuenta": "123456"
 }
 ###
 

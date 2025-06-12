@@ -1,5 +1,4 @@
 // deno-lint-ignore-file
-import { Categotria } from "../Models/CategoriaModel.ts";
 import { Cuenta } from "../Models/CuentaModels.ts";
 
 export const getCuenta = async(ctx:any)=>{
@@ -45,6 +44,7 @@ export const postCuenta = async (ctx:any)=>{
             idUsuario: body.idUsuario,
             idTipoCuenta: body.idTipoCuenta,
             nombreCuenta: body.nombreCuenta,
+            saldo:body.saldo,
         }
 
         const objCuenta = new Cuenta(CuentaData)
@@ -90,6 +90,7 @@ export const putCuenta = async (ctx: any) => {
             idUsuario: body.idUsuario,
             idTipoCuenta: body.idTipoCuenta,
             nombreCuenta: body.nombreCuenta,
+            saldo: body.saldo,
         };
 
         const objCuenta = new Cuenta(CuentaData);
