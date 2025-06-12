@@ -11,7 +11,7 @@ const app = new Application();
 
 app.use(oakCors());
 
-const routers = [routerCategoria, routerCuenta, routeTipoFinanza, UserRouter];
+const routers = [routerCategoria, routerCuenta, routeTipoFinanza, UserRouter, RouterTipo];
 app.use(async (ctx, next) => {
   if (ctx.request.url.pathname.startsWith("/Uploads")) {
     await send(ctx, ctx.request.url.pathname, {
