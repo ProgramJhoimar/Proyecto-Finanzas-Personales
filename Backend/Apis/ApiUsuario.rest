@@ -1,0 +1,40 @@
+GET http://localhost:8000/usuario
+
+###
+
+POST http://localhost:8000/usuario
+Content-Type: application/json
+
+{
+    "idUsuario": 1,
+    "perfil": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA\nAAAAFCAIAAAACDbGyAAAAHElEQVQI12P4//8/Azbw4GBgYGBg4ADGBgYGABPzAfs6bYyQAAAAASUVORK5CYII=",
+    "nombre": "Juan",
+    "apellido": "Pérez",
+    "telefono": "123456789",
+    "email": "juannnssssssssss@example.com",
+    "password": "supersegura123"
+}
+
+###
+
+PUT http://localhost:8000/usuario
+Content-Type: application/json
+
+{
+    "idUsuario": 11,
+    "perfil": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUA\nAAAAFCAIAAAACDbGyAAAAHElEQVQI12P4//8/Azbw4GBgYGBg4ADGBgYGABPzAfs6bYyQAAAAASUVORK5CYII=",
+    "nombre": "Juan",
+    "apellido": "Pérez",
+    "telefono": "987654321",
+    "email": "juan.nuevooo@example.com",
+    "password": "nuevasegura456"
+}
+
+###
+
+DELETE http://localhost:8000/usuario
+Content-Type: application/json
+
+{
+    "idUsuario": 13
+}
