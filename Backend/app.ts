@@ -1,11 +1,8 @@
 import { Application , oakCors } from "./Dependencies/Dependencies.ts";
 import { routerCategoria } from "./Routes/CategoriaRouter.ts";
 import { routerCuenta } from "./Routes/CuetaRouter.ts";
-<<<<<<< HEAD
 import { routeTipoFinanza } from "./Routes/TipoFinanzaRouter.ts";
-=======
 import { RouterTipo } from "./Routes/TipoCuentaRouter.ts";
->>>>>>> Rama-Javier
 
 
 
