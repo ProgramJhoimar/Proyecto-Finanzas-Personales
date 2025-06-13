@@ -5,49 +5,57 @@ import { error } from "node:console";
 
 
 interface TransaccionesData {
-  idTipoCuenta: number | null;
-  	valorMonto: string;
-  numeroCuenta: string ;
+  idTransaccion: number | null;
+  	valorMonto: number;
+    fecha: Date ;
+    descripcion: string;
+    idTipoFinanza: number;
+    idCategoria: number;
+    idCuenta: number;
 }
 
-export class TipoCuenta {
-  public _objTipo: TransaccionesData | null;
-  public _idTipo: number | null;
+export class Transaccion {
+  public _objTransaccion: TransaccionesData | null;
+  public _idTransaccion: number | null;
 
   constructor(
-    objTipo: TransaccionesData | null = null,
-    idTipo: number | null = null,
+    objTransaccion: TransaccionesData | null = null,
+    idTransaccion: number | null = null,
   ) {
-    this._objTipo = objTipo;
-    this._idTipo = idTipo;
+    this._objTransaccion = objTransaccion;
+    this._idTransaccion = idTransaccion;
   }
 
-  public async SeleccionarTipo(): Promise<TransaccionesData[]> {
-    const { rows: tipocuen } = await conexion.execute("select * from tipocuenta");
-    return tipocuen as TransaccionesData[];
+  public async SeleccionarTransaccion(): Promise<TransaccionesData[]> {
+    const { rows: transaccion } = await conexion.execute("select * from transacciones");
+    return transaccion as TransaccionesData[];
   }
 
-  public async insertarTipo(): Promise<
-    { success: boolean; message: string; TipoCuenta?: Record<string, unknown> }
+  public async insertarTransacion(): Promise<
+    { success: boolean; message: string; Transaccion?: Record<string, unknown> }
   > {
     try {
       //validar que _objUsuario no sea null y que los campos requeridos esten definidos
-      if (!this._objTipo) {
+      if (!this._objTransaccion) {
         throw new Error("No se ha proporcionado un objeto de usuario valido");
       }
 
-      const { nombreTipoCuenta, numeroCuenta } = this._objTipo;
-      if (!nombreTipoCuenta || !numeroCuenta ) {
-        throw new Error("Faltan campos requeridos para insertar el Tipo de Cuenta");
+      const { descripcion, valorMonto ,fecha, idCategoria, idCuenta ,idTipoFinanza } = this._objTransaccion;
+      if (!descripcion || !valorMonto || !fecha || !idCategoria || !idCuenta || !idTipoFinanza ) {
+        throw new Error("Faltan campos requeridos para insertar la Transaccion");
       }
 
       await conexion.execute("START TRANSACTION");
 
       const result = await conexion.execute(
-        `insert into tipocuenta(nombreTipoCuenta,numeroCuenta)values(?,?)`,
+        `insert into transacciones(valorMonto,fecha,descripcion,idTipoFinanza,idCategoria,idCuenta)values(?,?,?,?,?,?)`,
         [
-          nombreTipoCuenta,
-          numeroCuenta,
+          valorMonto,
+          fecha,
+          descripcion,
+          idTipoFinanza,
+          idCategoria,
+          idCuenta,
         ],
       );
 
@@ -55,19 +63,19 @@ export class TipoCuenta {
         result && typeof result.affectedRows === "number" &&
         result.affectedRows > 0
       ) {
-        const [tipo] = await conexion.query(
-          `select * from tipocuenta WHERE idTipoCuenta  = LAST_INSERT_ID()`,
+        const [transac] = await conexion.query(
+          `select * from transacciones WHERE idTransaccion  = LAST_INSERT_ID()`,
         );
 
         await conexion.execute("COMMIT");
 
         return {
           success: true,
-          message: "Tipo de Cuenta registrado correctamente.",
-          TipoCuenta: tipo,
+          message: "Transaccion registrado correctamente.",
+          Transaccion: transac,
         };
       } else {
-        throw new Error("no fue posible registrar el Tipo de Cuenta.");
+        throw new Error("no fue posible registrar la Transaccion.");
       }
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -78,57 +86,57 @@ export class TipoCuenta {
     }
   }
 
- public async actualizarTipo(): Promise<{ success: boolean; message: string }> {
+ public async actualizarTransaccion(): Promise<{ success: boolean; message: string }> {
     try {
-      if (!this._objTipo || !this._objTipo.idTipoCuenta) {
-        throw new Error("Datos de usuario no válidos");
+      if (!this._objTransaccion || !this._objTransaccion.idTransaccion) {
+        throw new Error("Datos de la transaccion no válidos");
       }
   
-      const { idTipoCuenta, nombreTipoCuenta, numeroCuenta} = this._objTipo;
+      const { idTransaccion, valorMonto, fecha, descripcion, idTipoFinanza, idCategoria, idCuenta } = this._objTransaccion;
   
       await conexion.execute("START TRANSACTION");
   
       const result = await conexion.execute(
-        `UPDATE tipocuenta SET nombreTipoCuenta = ?, numeroCuenta = ? WHERE idTipoCuenta = ?`,
-        [nombreTipoCuenta, numeroCuenta, idTipoCuenta]
+        `UPDATE transacciones SET valorMonto = ?, fecha = ?, descripcion = ?, idTipoFinanza = ?, idCategoria = ?, idCuenta = ? WHERE idTransaccion = ?`,
+        [valorMonto, fecha, descripcion, idTipoFinanza, idCategoria, idCuenta, idTransaccion]
       );
   
       if (result && typeof result.affectedRows === "number" && result.affectedRows > 0) {
         await conexion.execute("COMMIT");
-        return { success: true, message: "Tipo de Cuenta actualizado correctamente." };
+        return { success: true, message: "Transaccion actualizado correctamente." };
       } else {
-        throw new Error("No se encontró el Tipo de Cuenta o no se pudo actualizar.");
+        throw new Error("No se encontró la Transaccion o no se pudo actualizar.");
       }
   
     } catch (error) {
       await conexion.execute("ROLLBACK");
-      return { success: false, message: "Error al actualizar el Tipo de Cuenta." };
+      return { success: false, message: "Error al actualizar la Transaccion." };
     }
   }
 
- public async eliminarTipo(): Promise<{ success: boolean; message: string }> {
+ public async eliminarTransaccion(): Promise<{ success: boolean; message: string }> {
     try {
-      if (!this._idTipo) {
-        throw new Error("ID del Tipo de Cuenta no proporcionado");
+      if (!this._idTransaccion) {
+        throw new Error("ID de la Transaccion no proporcionado");
       }
   
       await conexion.execute("START TRANSACTION");
   
       const result = await conexion.execute(
-        "DELETE FROM tipocuenta WHERE idTipoCuenta = ?",
-        [this._idTipo]
+        "DELETE FROM transacciones WHERE idTransaccion = ?",
+        [this._idTransaccion]
       );
   
       if (result && typeof result.affectedRows === "number" && result.affectedRows > 0) {
         await conexion.execute("COMMIT");
-        return { success: true, message: "Tipo de Cuenta eliminado correctamente." };
+        return { success: true, message: "Transaccion  eliminada correctamente." };
       } else {
-        throw new Error("No se encontró el Tipo e Cuenta o no se pudo eliminar.");
+        throw new Error("No se encontró la Transaccion o no se pudo eliminar.");
       }
   
     } catch (error) {
       await conexion.execute("ROLLBACK");
-      return { success: false, message: "Error al eliminar el Tipo de Cuenta." };
+      return { success: false, message: "Error al eliminar la Transaccion." };
     }
   }
 

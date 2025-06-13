@@ -1,0 +1,33 @@
+GET http://localhost:8000/Transaccionget
+### 
+
+POST http://localhost:8000/Transaccionpost
+Content-Type: application/json
+
+{
+  "valorMonto": 1000.50,
+  "fecha": "2004-05-02",
+  "descripcion": "pago Nomina",
+  "idTipoFinanza": 1,
+  "idCategoria": 1,
+  "idCuenta": 1
+}
+
+
+###
+
+PUT http://localhost:8000/Transaccionput/1
+Content-Type: application/json
+
+{
+    "idTransaccion":  ,
+     "valorMonto": "cuenta",
+    "fecha": "0",
+    "descripcion": "",
+    "idTipoFinanza":  ,
+    "idCategoria":  ,
+    "idCuenta":  ,
+}
+###
+
+DELETE http://localhost:8000/Transacciondelete/2
