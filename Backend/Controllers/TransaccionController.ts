@@ -67,20 +67,27 @@ export const posTransaccion = async (ctx: any) => {
 };
 
 export const putTransaccion = async (ctx: any) => {
-    const { request, response } = ctx;
-  
-    try {
-      const contentLength = request.headers.get("Content-Length");
-      if (contentLength === "0") {
-        response.status = 400;
-        response.body = { success: false, msg: "Cuerpo de la solicitud está vacío" };
-        return;
-      }
-  
-      const body = await request.body.json();
-  
-      const TransaccionData = {
-      idTransaccion: body.idTransaccion,
+  const { request, response, params } = ctx;
+
+  try {
+    const id = params.id;
+    if (!id) {
+      response.status = 400;
+      response.body = { success: false, msg: "ID de transacción no proporcionado en la URL." };
+      return;
+    }
+
+    const contentLength = request.headers.get("Content-Length");
+    if (!contentLength || contentLength === "0") {
+      response.status = 400;
+      response.body = { success: false, msg: "El cuerpo de la solicitud está vacío." };
+      return;
+    }
+
+    const body = await request.body({ type: "json" }).value;
+
+    const transaccionData = {
+      idTransaccion: parseInt(id), // viene de la URL
       valorMonto: body.valorMonto,
       fecha: body.fecha,
       descripcion: body.descripcion,
@@ -88,30 +95,25 @@ export const putTransaccion = async (ctx: any) => {
       idCategoria: body.idCategoria,
       idCuenta: body.idCuenta,
     };
-  
-      if (!TransaccionData.idTransaccion) {
-        response.status = 400;
-        response.body = { success: false, msg: "ID de usuario requerido para actualizar." };
-        return;
-      }
-  
-      const objTipo = new Transaccion(TransaccionData);
-      const result = await objTipo.actualizarTransaccion();
-  
-      response.status = result.success ? 200 : 400;
-      response.body = {
-        success: result.success,
-        message: result.message
-      };
-  
-    } catch (error) {
-      response.status = 500;
-      response.body = {
-        success: false,
-        msg: "Error interno al actualizar el Tipo de Cuenta"
-      };
-    }
-  };
+
+    const objTransaccion = new Transaccion(transaccionData);
+    const result = await objTransaccion.actualizarTransaccion();
+
+    response.status = result.success ? 200 : 400;
+    response.body = {
+      success: result.success,
+      message: result.message,
+    };
+
+  } catch (error) {
+    console.error("Error en putTransaccion:", error);
+    response.status = 500;
+    response.body = {
+      success: false,
+      msg: `Error interno al actualizar la transacción: ${error.message}`,
+    };
+  }
+};
   
 
 export const deleteTransaccion = async (ctx: any) => {
