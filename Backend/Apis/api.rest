@@ -18,7 +18,7 @@ Content-Type: application/json
     "idUsuario": "1"
 }
 ###
-DELETE http://localhost:8000/categorias/3
+DELETE http://localhost:8000/categorias/2
 
 
 //Tabla Cuenta
